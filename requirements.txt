@@ -1,0 +1,8 @@
+# --- START OF FILE requirements.txt ---
+Flask
+Flask-SQLAlchemy
+gunicorn
+mysql-connector-python
+python-dotenv
+# Add any other direct dependencies your app might have (e.g., requests, Pillow, etc.)
+# --- END OF FILE requirements.txt ---
