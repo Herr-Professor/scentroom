@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Ask - Scent Room IMS{% endblock %}
+
+{% block content %}
+    <h2>Add New Customer Ask</h2>
+    <p>Record an item a customer asked for that you don't currently stock.</p>
+    <form method="POST">
+        <div>
+            <label for="item_name">Item Name:</label>
+            <input type="text" id="item_name" name="item_name" value="{{ item_name or '' }}" required>
+        </div>
+        <div>
+            <label for="notes">Notes (Optional):</label>
+            <textarea id="notes" name="notes" rows="3" style="width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">{{ notes or '' }}</textarea>
+        </div>
+        <div>
+            <input type="submit" value="Add Ask">
+            <a href="{{ url_for('asks') }}" class="button" style="background-color: #6c757d;">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

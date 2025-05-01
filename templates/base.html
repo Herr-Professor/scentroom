@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Scent Room IMS{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Scent Room IMS</h1>
+    </header>
+    <nav>
+        <ul>
+            {# Keep existing links #}
+            <li><a href="{{ url_for('inventory') }}">Inventory</a></li>
+            <li><a href="{{ url_for('add_stock') }}">Add Stock</a></li>
+            <li><a href="{{ url_for('orders') }}">View Orders</a></li>
+            <li><a href="{{ url_for('add_order') }}">Add Order</a></li>
+            {# Add Ask Links #}
+            <li><a href="{{ url_for('asks') }}">View Asks</a></li>
+            <li><a href="{{ url_for('add_ask') }}">Add Ask</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        {% block flashes %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+        <p style="text-align: center; margin-top: 30px; color: #666;">© {{ now.year }} Scent Room IMS</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Asks - Scent Room IMS{% endblock %}
+
+{% block content %}
+    <h2>Customer Asks</h2>
+    <p>Items customers have requested that are not currently in stock.</p>
+
+    <a href="{{ url_for('add_ask') }}" class="button" style="margin-bottom: 20px;">Add New Ask</a>
+
+    {% if asks %}
+    <table>
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Notes</th>
+                <th>Date Asked (UTC)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ask in asks %}
+            <tr>
+                <td>{{ ask.item_name }}</td>
+                <td>{{ ask.notes or '-' }}</td>
+                <td>{{ ask.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    <form action="{{ url_for('delete_ask', ask_id=ask.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to remove this ask?');">
+                        <input type="submit" value="Remove" class="button action-button" style="background-color: #dc3545;">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No customer asks recorded yet.</p>
+    {% endif %}
+{% endblock %}

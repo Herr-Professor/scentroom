@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - Scent Room IMS{% endblock %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+    {# Use stock.name for initial load, fall back to form values if validation failed #}
+    <form method="POST">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ name or stock.name }}" required>
+        </div>
+        <div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" value="{{ quantity or stock.quantity }}" min="0" required>
+        </div>
+        <div>
+            <label for="price">Price (€):</label>
+            <input type="number" step="0.01" id="price" name="price" value="{{ price or stock.price }}" min="0" required>
+        </div>
+        <div>
+            <input type="submit" value="Update Stock Item">
+            <a href="{{ url_for('inventory') }}" class="button" style="background-color: #6c757d;">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

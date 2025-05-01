@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Order - Scent Room IMS{% endblock %}
+
+{% block content %}
+    <h2>Place New Order</h2>
+    <form method="POST">
+        <div>
+            <label for="stock_id">Stock Item:</label>
+            <select id="stock_id" name="stock_id" required>
+                <option value="" disabled selected>-- Select Item --</option>
+                {% for stock in stocks %}
+                {# Show available quantity in the dropdown #}
+                <option value="{{ stock.id }}">{{ stock.name }} (Available: {{ stock.quantity }})</option>
+                {% endfor %}
+            </select>
+            {% if not stocks %}
+             <p style="color: red;">No stock items currently available to order.</p>
+            {% endif %}
+        </div>
+        <div>
+            <label for="quantity_requested">Quantity Requested:</label>
+            <input type="number" id="quantity_requested" name="quantity_requested" min="1" required>
+        </div>
+        <div>
+            <input type="submit" value="Place Order" {% if not stocks %}disabled{% endif %}>
+        </div>
+    </form>
+{% endblock %}

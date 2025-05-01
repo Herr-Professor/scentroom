@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}View Orders - Scent Room IMS{% endblock %}
+
+{% block content %}
+    <h2>Order History</h2>
+    {% if orders %}
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Stock Name</th>
+                <th>Quantity Requested</th>
+                <th>Timestamp (UTC)</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                {# Safely access stock name, showing placeholder if stock was deleted #}
+                <td>{{ order.stock_item.name if order.stock_item else '[Deleted Stock]' }}</td>
+                <td>{{ order.quantity_requested }}</td>
+                <td>{{ order.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    <span style="font-weight: bold; color:
+                        {% if order.status == 'Pending' %}orange{% endif %}
+                        {% if order.status == 'Fulfilled' %}green{% endif %}
+                        {% if order.status in ('Cancelled', 'Failed - Insufficient Stock', 'Failed - Stock Missing') %}red{% endif %}
+                    ">{{ order.status }}</span>
+                </td>
+                <td>
+                    {% if order.status == 'Pending' %}
+                        <form action="{{ url_for('fulfill_order', order_id=order.id) }}" method="POST" style="display: inline;">
+                             {# Disable fulfill button if stock item doesn't exist anymore #}
+                            <input type="submit" value="Fulfill" class="button action-button" {% if not order.stock_item %}disabled title="Cannot fulfill: Stock item deleted."{% endif %}>
+                        </form>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No orders have been placed yet.</p>
+    {% endif %}
+{% endblock %}
