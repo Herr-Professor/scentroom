@@ -2,17 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "app.py",        // Your main Flask app file
+      "src": "app.py",
       "use": "@vercel/python",
       "config": {
-        "maxLambdaSize": "15mb", // Standard size
-        "runtime": "python3.9"  // Or python3.10, python3.11 etc.
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
       }
     }
   ],
   "routes": [
     {
-      // Route all incoming requests to the Python function defined in builds
       "src": "/(.*)",
       "dest": "app.py"
     }
